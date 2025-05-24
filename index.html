@@ -4,8 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game Menu</title>
+    <link rel="stylesheet" href="game_menu.css">
 </head>
 <body>
-    
+    <div>
+        <h1>Game Menu</h1>
+        <ul>
+            <li><a href="#" onclick="openWindow('player_count.html')">Local</a></li>
+            <br>
+            <li><a href="#" onclick="openWindow('n/a')">Multiplayer</a></li>
+            <br>
+            <li><a href="#" onclick="openWindow('n/a')">Bot</a></li>
+        </ul>
+        <script>
+            function openWindow(url) {
+            window.open(url, '_blank');
+            }
+        </script>
+    </div>
 </body>
 </html>

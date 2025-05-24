@@ -1,6 +1,9 @@
-import { input } from "./modules/input.js";
 import { Hero } from "./modules/hero.js";
-import { drawPlayers, updatePlayerPosition } from "./modules/players.js";
+import {
+    drawPlayers,
+    updatePlayerPosition,
+    changeGravity,
+} from "./modules/players.js";
 import { drawMap, drawPlatforms } from "./modules/draw.js";
 import { generateNewObstacles, Tick, Platform, Hole } from "./modules/generateMap.js";
 
@@ -28,10 +31,10 @@ document.addEventListener("DOMContentLoaded", () => {
         names[i],
         colours[i],
         keys[i],
-        50,
+        170,
         canvas.height / (playersNumber - i) - 300,
-        0.5,
-        50
+        5,
+        35
       )
     );
   }
@@ -42,9 +45,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!running) {
       drawPlayers(players);
     } else {
-      updatePlayerPosition(players);
+      updatePlayerPosition(players,running);
       drawPlayers(ctx, players);
-      input(players);
+      changeGravity(players);
     }
 
     obstacles = generateNewObstacles(obstacles, speed, canvas, platformTick, holeTick);
