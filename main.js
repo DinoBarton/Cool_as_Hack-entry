@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
     );
   }
   function mainLoop() {
-    drawMap();
+    drawMap(ctx);
 
     if (!running) {
       drawPlayers(players);
