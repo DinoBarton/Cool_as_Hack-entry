@@ -1,4 +1,4 @@
-export function drawPlayers(players) {
+export function drawPlayers(ctx, players) {
   for (let i = 0; i < players.length; i++) {
     const player = players[i];
     ctx.fillStyle = player.colour;

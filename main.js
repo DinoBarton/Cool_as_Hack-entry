@@ -35,12 +35,12 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!running) {
       drawPlayers(players);
     } else {
-      updatePlayerPosition();
+      updatePlayerPosition(players);
+      drawPlayers(ctx, players);
     }
 
     requestAnimationFrame(mainLoop);
   }
   input();
-  drawPlayers();
   mainLoop();
 });
