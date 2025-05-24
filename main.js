@@ -1,11 +1,16 @@
 import { Hero } from "./modules/hero.js";
 import {
-    drawPlayers,
-    updatePlayerPosition,
-    changeGravity,
+  drawPlayers,
+  updatePlayerPosition,
+  changeGravity,
 } from "./modules/players.js";
 import { drawMap, drawPlatforms } from "./modules/draw.js";
-import { generateNewObstacles, Tick, Platform, Hole } from "./modules/generateMap.js";
+import {
+  generateNewObstacles,
+  Tick,
+  Platform,
+  Hole,
+} from "./modules/generateMap.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   const canvas = document.getElementById("canvas");
@@ -45,17 +50,20 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!running) {
       drawPlayers(players);
     } else {
-      updatePlayerPosition(players,running);
+      obstacles = generateNewObstacles(
+        obstacles,
+        speed,
+        canvas,
+        platformTick,
+        holeTick
+      );
+
+      platformTick.tick += 1;
+      holeTick.tick += 1;
+      updatePlayerPosition(players, running);
       drawPlayers(ctx, players);
       changeGravity(players);
     }
-
-    obstacles = generateNewObstacles(obstacles, speed, canvas, platformTick, holeTick);
-    
-    // console.log(obstacles)
-
-    platformTick.tick += 1;
-    holeTick.tick += 1;
 
     requestAnimationFrame(mainLoop);
   }
