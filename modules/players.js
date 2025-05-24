@@ -7,6 +7,9 @@ export function drawPlayers(ctx, players) {
 }
 
 export function updatePlayerPosition(players) {
+  players.forEach((player) => {
+    player.y += player.gravity;
+  });
   for (let i = 0; i < players.length; i++) {
     const player = players[i];
     player.x += player.velocityX;
