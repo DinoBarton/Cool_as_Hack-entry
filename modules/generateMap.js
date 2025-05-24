@@ -120,13 +120,11 @@ function generateHoleY(canvasHeight, height) {
     const heightMin = canvasHeight * 0.1 - height/2;
     const heightMax = canvasHeight * 0.9 - height/2;
 
-    console.log(heightMin, heightMax);
     return Math.round(Math.random()) === 0 ? heightMin : heightMax;
 }
 
 /*
 if (import.meta.main) {
     let tick = new Tick(10, 0.1);
-    console.log(tick.nextCount);
     generateNewObstacles([new Platform(1, 2), new Hole(2, 3)]);
 } */

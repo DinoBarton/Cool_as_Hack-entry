@@ -47,7 +47,6 @@ document.addEventListener("DOMContentLoaded", () => {
   function mainLoop() {
     drawMap(ctx);
     drawPlatforms(ctx, obstacles);
-    drawHoles(ctx, obstacles);
 
     if (!running) {
       drawPlayers(players);
@@ -63,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       platformTick.tick += 1;
       holeTick.tick += 1;
-      updatePlayerPosition(players, canvas);
+      updatePlayerPosition(players, obstacles, canvas);
       drawPlayers(ctx, players);
       changeGravity(players);
     }

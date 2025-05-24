@@ -1,4 +1,4 @@
-import { collisions } from "./collisions.js";
+import { collisions, playerCollisions } from "./collisions.js";
 
 export function drawPlayers(ctx, players) {
   for (let i = 0; i < players.length; i++) {
@@ -8,12 +8,14 @@ export function drawPlayers(ctx, players) {
   }
 }
 
-export function updatePlayerPosition(players, canvas, elapsedTime) {
+export function updatePlayerPosition(players, obstacles, canvas, elapsedTime) {
+  let playerCollision = playerCollisions(players);
   players.forEach((player) => {
-    if (!collisions(player, canvas)) {
+    if (!collisions(player, obstacles, canvas) && !playerCollision) {
       player.y += player.gravity;
     }
   });
+
   for (let i = 0; i < players.length; i++) {
     const player = players[i];
 
@@ -44,30 +46,25 @@ export function changeGravity(players) {
   };
   function updateGravity() {
     if ((keys["A"] || keys["a"]) && players[0]) {
-      console.log("key A pressed");
       players[0].gravity *= -1;
       keys["A"] = false;
       keys["a"] = false;
     }
     if (keys["ArrowRight"] && players[1]) {
-      console.log("ArrowRight pressed");
       players[1].gravity *= -1;
       keys["ArrowRight"] = false;
     }
     if ((keys["F"] || keys["f"]) && players[2]) {
-      console.log("key F pressed");
       players[2].gravity *= -1;
       keys["F"] = false;
       keys["f"] = false;
     }
     if ((keys["J"] || keys["j"]) && players[3]) {
-      console.log("key J pressed");
       players[3].gravity *= -1;
       keys["J"] = false;
       keys["j"] = false;
     }
     if ((keys["L"] || keys["l"]) && players[4]) {
-      console.log("key L pressed");
       players[4].gravity *= -1;
       keys["L"] = false;
       keys["l"] = false;
