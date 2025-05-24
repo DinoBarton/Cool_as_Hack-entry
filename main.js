@@ -1,6 +1,9 @@
-import { input } from "./modules/input.js";
 import { Hero } from "./modules/hero.js";
-import { drawPlayers, updatePlayerPosition } from "./modules/players.js";
+import {
+  drawPlayers,
+  updatePlayerPosition,
+  changeGravity,
+} from "./modules/players.js";
 import { drawMap } from "./modules/draw.js";
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -37,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       updatePlayerPosition(players);
       drawPlayers(ctx, players);
-      input(players);
+      changeGravity(players);
     }
 
     requestAnimationFrame(mainLoop);
