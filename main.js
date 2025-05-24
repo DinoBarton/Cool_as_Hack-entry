@@ -52,6 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
       drawPlayers(players);
       drawTime();
     } else {
+      drawTime();
       obstacles = generateNewObstacles(
         obstacles,
         speed,
@@ -70,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
     requestAnimationFrame(mainLoop);
   }
   function startGame() {
-    if (!running) { 
+    if (!running) {
       running = true;
       startTime = new Date().getTime();
     }

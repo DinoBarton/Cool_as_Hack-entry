@@ -25,18 +25,17 @@ export function updatePlayerPosition(players, obstacles, canvas, elapsedTime) {
     // Check if player is fully out of vertical safe zone
     if (
       player.y + player.length < topBound || // fully above top bound
-      player.y > bottomBound                  // fully below bottom bound
+      player.y > bottomBound // fully below bottom bound
     ) {
-      alert(`PLAYER ${player.name} lost`);
-      setTimeout(() => {
-        window.location.reload();
-      }, 2000);
+      alert(
+        `PLAYER ${player.name} lost.\nSurvived Time: ${elapsedTime} seconds`
+      );
+      window.location.reload();
       // Or alert here if you want:
       // alert(`${player.name} lost\nSurvived Time: ${elapsedTime} seconds`);
     }
   });
 }
-
 
 export function changeGravity(players) {
   let keys = {};
