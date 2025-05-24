@@ -110,8 +110,8 @@ export function cleanupObjects(obstacles) {
 }
 
 function generateRandomY(height) {
-    const heightMin = height * 0.1;
-    const heightMax = height * 0.9;
+    const heightMin = height * 0.1 + 50;
+    const heightMax = height * 0.9 - 50;
 
     return Math.round(Math.random() * (heightMax - heightMin) + heightMin);
 }

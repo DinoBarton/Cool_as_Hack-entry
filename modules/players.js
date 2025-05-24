@@ -1,4 +1,4 @@
-import { collisions, playerCollisions } from "./collisions.js";
+import { collisions, willCollide } from "./collisions.js";
 
 export function drawPlayers(ctx, players) {
   for (let i = 0; i < players.length; i++) {
@@ -9,30 +9,34 @@ export function drawPlayers(ctx, players) {
 }
 
 export function updatePlayerPosition(players, obstacles, canvas, elapsedTime) {
-  let playerCollision = playerCollisions(players);
+  const topBound = canvas.height * 0.1;
+  const bottomBound = canvas.height * 0.9;
+
   players.forEach((player) => {
-    if (!collisions(player, obstacles, canvas) && !playerCollision) {
-      player.y += player.gravity;
+    const gravityStep = player.gravity;
+
+    const hitObstacle = collisions(player, obstacles, canvas);
+    const hitPlayer = willCollide(player, players, 0, gravityStep);
+
+    if (!hitObstacle && !hitPlayer) {
+      player.y += gravityStep;
+    }
+
+    // Check if player is fully out of vertical safe zone
+    if (
+      player.y + player.length < topBound || // fully above top bound
+      player.y > bottomBound                  // fully below bottom bound
+    ) {
+      alert(`PLAYER ${player.name} lost`);
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+      // Or alert here if you want:
+      // alert(`${player.name} lost\nSurvived Time: ${elapsedTime} seconds`);
     }
   });
-
-  for (let i = 0; i < players.length; i++) {
-    const player = players[i];
-
-    if (player.x < 0) {
-      alert(`${player.name}` + ` lost\nSurvived Time: ${elapsedTime} seconds`);
-    }
-    if (player.x + player.length > canvas.width) {
-      alert(`${player.name}` + ` lost\nSurvived Time: ${elapsedTime} seconds`);
-    }
-    if (player.y < 0) {
-      alert(`${player.name}` + ` lost\nSurvived Time: ${elapsedTime} seconds`);
-    }
-    if (player.y + player.length > canvas.height) {
-      alert(`${player.name}` + ` lost\nSurvived Time: ${elapsedTime} seconds`);
-    }
-  }
 }
+
 
 export function changeGravity(players) {
   let keys = {};

@@ -1,3 +1,5 @@
+import { Hole } from "./generateMap.js";
+
 export class Point {
     x;
     y;
@@ -9,41 +11,62 @@ export class Point {
 }
 
 export function collisions(player, obstacles, canvas) {
-    if (topCollisons(player.y + player.gravity, canvas, player.length)) {
-        return true;
-    } else {
-        for(let i = 0; i < obstacles.length; i++) {
-            const obstacle = obstacles[i];
-            if (entityCollision(player, obstacle)) {
-                return true;
-            }
-        }
+    if (topCollisons(player.y + player.gravity, canvas, player.length, player, obstacles)) {
+      return true;
     }
+  
+    for (let i = 0; i < obstacles.length; i++) {
+      const obstacle = obstacles[i];
+      if (obstacle instanceof Hole) continue;
+      if (entityCollision(player, obstacle)) {
+        return true;
+      }
+    }
+  
     return false;
 }
 
-function topCollisons(nextY, canvas, playerLength) {
-    let heightMin = canvas.height * 0.1;
-    let heightMax = canvas.height * 0.9 - playerLength;
-    if (nextY >= heightMin && nextY <= heightMax) {
-        return false;
-    } else {
-        return true;
+function topCollisons(nextY, canvas, playerLength, player, obstacles) {
+    const heightMin = canvas.height * 0.1;
+    const heightMax = canvas.height * 0.9 - playerLength;
+  
+    // Check if the player is within a hole at this Y position
+    const inHole = obstacles.some((obs) => {
+      if (obs instanceof Hole) {
+        const inX = player.x + player.length > obs.x && player.x < obs.x + obs.width;
+        const inY = nextY + playerLength > obs.y && nextY < obs.y + obs.height;
+        return inX && inY;
+      }
+      return false;
+    });
+  
+    if (inHole) {
+      return false; // allow passing through if player is inside a hole
     }
-}
+  
+    // Restrict vertical movement if outside hole bounds
+    return nextY < heightMin || nextY > heightMax;
+  }
 
-export function playerCollisions(players) {
+export function willCollide(player, players, dx = 0, dy = 0) {
     for (let i = 0; i < players.length; i++) {
-        for (let j = 0; j < players.length; j++) {
-            if (i != j) {
-                if (entityCollision(players[i], players[j])) {
-                    return true;
-                }
-            }
-        }
+      const other = players[i];
+      if (player === other) continue;
+  
+      const future = {
+        x: player.x + dx,
+        y: player.y + dy,
+        width: player.width,
+        height: player.height,
+      };
+  
+      if (entityCollision(future, other)) {
+        return true;
+      }
     }
     return false;
-}
+  }
+  
 
 export function entityCollision(entity1, entity2) {
     const isColliding = 
