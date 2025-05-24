@@ -31,11 +31,15 @@ export class Tick {
 export class Obstacle {
     x;
     y;
+    height;
+    width;
     speed;
 
-    constructor(x, y, speed) {
+    constructor(x, y, speed, width, height) {
         this.x = x;
         this.y = y;
+        this.width = width;
+        this.height = height;
         this.speed = speed;
     }
 
@@ -46,15 +50,16 @@ export class Obstacle {
 
 export class Platform extends Obstacle {
     constructor(x, y, speed, color = "white") {
-        super(x, y, speed);
+        let width = Math.round(Math.random() * (500 - 100) + 100);
+        let height = 15;
+        super(x, y, speed, width, height);
         this.color = color;
-        this.width = Math.round(Math.random() * (500 - 100) + 100);
     }
 }
 
-export class Hole extends Obstacle {
+export class Hole extends Platform {
     constructor(x, y, speed) {
-        super(x, y, speed);
+        super(x, y, speed, "red");
     }
 }
 
@@ -68,13 +73,9 @@ export function generateNewObstacles(obstacles, speed, canvas, platformTick, hol
     }
 
     if (holeTick.tick >= holeTick.nextCount) {
-        holeTick.newNextCount(
-            new Hole(
-                0, 
-                Math.round() == 0 ? canvas.height * 0.1 : canvas.height * 0.1, 
-                speed
-            )
-        ); // TODO: proper impl
+        let newHole = new Hole(canvas.width, generateHoleY(canvas.height), speed);
+        obstacles.push(newHole);
+        holeTick.newNextCount();
         holeTick.tick = 0;
     }
 
@@ -83,9 +84,10 @@ export function generateNewObstacles(obstacles, speed, canvas, platformTick, hol
 
 export function moveAllObstacles(obstacles) {
     for (let i = 0; i < obstacles.length; i++) {
+        const obj = obstacles[i];
 
-        if (obstacles[i] instanceof Platform) {
-            obstacles[i].move()
+        if (obj instanceof Platform || obj instanceof Hole) {
+            obstacles[i].move();
         }
     }
 }
@@ -111,6 +113,13 @@ function generateRandomY(height) {
     const heightMax = height * 0.9;
 
     return Math.round(Math.random() * (heightMax - heightMin) + heightMin);
+}
+
+function generateHoleY(canvasHeight, height) {
+    const heightMin = canvasHeight * 0.1 + height/2;
+    const heightMax = canvasHeight * 0.9 - height/2;
+
+    return Math.round(Math.random()) === 0 ? heightMin : heightMax;
 }
 
 /*

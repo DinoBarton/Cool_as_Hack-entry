@@ -11,3 +11,7 @@ function topCollisons(nextY, canvas, playerLength) {
         return true;
     }
 }
+
+function entityOnPointCollision(entity, point) {
+
+}
