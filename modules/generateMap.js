@@ -43,7 +43,7 @@ export class Obstacle {
 }
 
 export class Platform extends Obstacle {
-    constructor(x, y, color = "black") {
+    constructor(x, y, color = "white") {
         super(x, y);
         this.color = color;
     }
@@ -56,6 +56,22 @@ export class Hole extends Obstacle {
 }
 
 export function generateNewObstacles(obstacles) {
+    if (platformTick.tick >= platformTick.nextCount) {
+        obstacles.push(new Platform(0, 0)); // TODO: proper impl
+        platformTick.newNextCount();
+        platformTick.tick = 0;
+    }
+
+    if (holeTick.tick >= holeTick.nextCount) {
+        holeTick.newNextCount(new Hole(0, 0)); // TODO: proper impl
+        holeTick.tick = 0;
+    }
+
+    platformTick++;
+    holeTick++;
+}
+
+export function cleanupObjects(obstacles) {
     for (let i = 0; i < obstacles.length; i++) {
         const obj = obstacles[i];
 
@@ -64,7 +80,7 @@ export function generateNewObstacles(obstacles) {
         } else if (obj instanceof Hole) {
             console.log(`obstacles[${i}] is an instance of Tick`);
         } else {
-            console.log("Broken tile");
+            console.log("Broken object");
         }
     }
 }
