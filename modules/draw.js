@@ -1,4 +1,6 @@
-const BORDER_PERCENT = 0.1;
+import { Tick, Platform, Hole } from "./generateMap.js";
+
+const BORDER_PERCENT = 0.10;
 
 export function drawMap(ctx) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -19,6 +21,13 @@ export function drawMap(ctx) {
     ctx.stroke();
 }
 
-export function drawObstacles() {
-    
+export function drawPlatforms(ctx, obstacles) {
+    for (let i = 0; i < obstacles.length; i++) {
+        const obj = obstacles[i];
+        
+        if (obj instanceof Platform) {
+            ctx.fillStyle = obj.color;
+            ctx.fillRect(obj.x, 0, 10, 10);
+        }
+    }
 }

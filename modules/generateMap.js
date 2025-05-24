@@ -1,8 +1,5 @@
 // holes, platforms
 
-let platformTick = new Tick(60, 0.2);
-let holeTick = new Tick(200, 0.1);
-
 export class Tick {
     tick;
     nextCount;
@@ -27,7 +24,6 @@ export class Tick {
         const freqMin = frequency - (frequency * variation);
         const freqMax = frequency + (frequency * variation);
 
-        console.log("hi", freqMin, freqMax);
         return Math.round(Math.random() * (freqMax - freqMin) + freqMin);
     }
 }
@@ -35,40 +31,58 @@ export class Tick {
 export class Obstacle {
     x;
     y;
+    speed;
 
-    constructor(x, y) {
+    constructor(x, y, speed) {
         this.x = x;
         this.y = y;
+        this.speed = speed;
+    }
+
+    move() {
+        console.log(this.x);
+        this.x -= (this.speed / 60);
     }
 }
 
 export class Platform extends Obstacle {
-    constructor(x, y, color = "white") {
-        super(x, y);
+    constructor(x, y, speed, color = "white") {
+        super(x, y, speed);
         this.color = color;
     }
 }
 
 export class Hole extends Obstacle {
-    constructor(x, y) {
-        super(x, y);
+    constructor(x, y, speed) {
+        super(x, y, speed);
     }
 }
 
-export function generateNewObstacles(obstacles) {
+export function generateNewObstacles(obstacles, speed, canvas, platformTick, holeTick) {
+    moveAllObstacles(obstacles);
     if (platformTick.tick >= platformTick.nextCount) {
-        obstacles.push(new Platform(0, 0)); // TODO: proper impl
+        obstacles.push(new Platform(canvas.width, 0, speed)); // TODO: proper impl
         platformTick.newNextCount();
         platformTick.tick = 0;
     }
 
     if (holeTick.tick >= holeTick.nextCount) {
-        holeTick.newNextCount(new Hole(0, 0)); // TODO: proper impl
+        holeTick.newNextCount(new Hole(0, 0, speed)); // TODO: proper impl
         holeTick.tick = 0;
     }
 
-    platformTick++;
-    holeTick++;
+    return obstacles;
+}
+
+export function moveAllObstacles(obstacles) {
+    console.log("as");
+    for (let i = 0; i < obstacles.length; i++) {
+
+        if (obstacles[i] instanceof Platform) {
+            console.log(obstacles[i].x);
+            obstacles[i].move()
+        }
+    }
 }
 
 export function cleanupObjects(obstacles) {
@@ -85,8 +99,9 @@ export function cleanupObjects(obstacles) {
     }
 }
 
+/*
 if (import.meta.main) {
     let tick = new Tick(10, 0.1);
     console.log(tick.nextCount);
     generateNewObstacles([new Platform(1, 2), new Hole(2, 3)]);
-}
+} */
