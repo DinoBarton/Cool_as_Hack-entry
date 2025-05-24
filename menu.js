@@ -41,3 +41,14 @@ document.getElementById('submitPlayerCount').onclick = function() {
     alert('Player count submitted: ' + playerCount);
     window.location.href = 'names.html';
 };
+
+document.getElementById("nameForm").onsubmit = function (event) {
+    event.preventDefault(); // Prevent default form submission
+    const playerNames = [];
+    for (let i = 1; i <= playerCount; i++) {
+        const name = document.getElementById(`player${i}Name`).value;
+        playerNames.push(name);
+    }
+    localStorage.setItem("playerNames", JSON.stringify(playerNames));
+    window.location.href = "info.html"; // Redirect to the game
+};
