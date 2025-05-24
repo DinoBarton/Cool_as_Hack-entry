@@ -40,7 +40,6 @@ export class Obstacle {
     }
 
     move() {
-        console.log(this.x);
         this.x -= (this.speed / 60);
     }
 }
@@ -59,9 +58,10 @@ export class Hole extends Obstacle {
 }
 
 export function generateNewObstacles(obstacles, speed, canvas, platformTick, holeTick) {
+    cleanupObjects(obstacles);
     moveAllObstacles(obstacles);
     if (platformTick.tick >= platformTick.nextCount) {
-        obstacles.push(new Platform(canvas.width, 0, speed)); // TODO: proper impl
+        obstacles.push(new Platform(canvas.width, generateRandomY(canvas.height), speed)); // TODO: proper impl
         platformTick.newNextCount();
         platformTick.tick = 0;
     }
@@ -75,11 +75,9 @@ export function generateNewObstacles(obstacles, speed, canvas, platformTick, hol
 }
 
 export function moveAllObstacles(obstacles) {
-    console.log("as");
     for (let i = 0; i < obstacles.length; i++) {
 
         if (obstacles[i] instanceof Platform) {
-            console.log(obstacles[i].x);
             obstacles[i].move()
         }
     }
@@ -90,13 +88,25 @@ export function cleanupObjects(obstacles) {
         const obj = obstacles[i];
 
         if (obj instanceof Platform) {
-            console.log(`obstacles[${i}] is an instance of Platform`);
+            if (obj.x < 0) {
+                obstacles.splice(i, 1);
+            }
         } else if (obj instanceof Hole) {
             console.log(`obstacles[${i}] is an instance of Tick`);
         } else {
             console.log("Broken object");
         }
     }
+}
+
+function generateRandomY(height) {
+    const heightMin = height * 0.1;
+    const heightMax = height * 0.9;
+
+    console.log(height, heightMin, heightMax)
+
+    console.log(Math.round(Math.random() * (heightMax - heightMin) + heightMin));
+    return Math.round(Math.random() * (heightMax - heightMin) + heightMin);
 }
 
 /*

@@ -27,7 +27,7 @@ export function drawPlatforms(ctx, obstacles) {
         
         if (obj instanceof Platform) {
             ctx.fillStyle = obj.color;
-            ctx.fillRect(obj.x, 0, 10, 10);
+            ctx.fillRect(obj.x, obj.y, 100, 15);
         }
     }
 }

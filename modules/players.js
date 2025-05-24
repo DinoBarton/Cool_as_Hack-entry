@@ -15,16 +15,16 @@ export function updatePlayerPosition(players, running) {
     player.y += player.gravity;
 
     if (player.x < 0) {
-      alert(`${player.name}`+ " lost!");
+      //alert(`${player.name}`+ " lost!");
     }
     if (player.x + player.length > canvas.width) {
-      alert(`${player.name}`+ " lost!");
+      //alert(`${player.name}`+ " lost!");
     }
     if (player.y < 0) {
-      alert(`${player.name}`+ " lost!");
+      //alert(`${player.name}`+ " lost!");
     }
     if (player.y + player.length > canvas.height) {
-      alert(`${player.name}`+ " lost!");
+      //alert(`${player.name}`+ " lost!");
     }
   }
 }
