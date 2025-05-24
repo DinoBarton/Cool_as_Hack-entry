@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       platformTick.tick += 1;
       holeTick.tick += 1;
-      updatePlayerPosition(players, running);
+      updatePlayerPosition(players, canvas);
       drawPlayers(ctx, players);
       changeGravity(players);
     }

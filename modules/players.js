@@ -1,3 +1,5 @@
+import { collisions } from './collisions.js'
+
 export function drawPlayers(ctx, players) {
   for (let i = 0; i < players.length; i++) {
     const player = players[i];
@@ -6,13 +8,14 @@ export function drawPlayers(ctx, players) {
   }
 }
 
-export function updatePlayerPosition(players, running) {
+export function updatePlayerPosition(players, canvas) {
   players.forEach((player) => {
-    player.y += player.gravity;
+    if (!collisions(player, canvas)) {
+      player.y += player.gravity;
+    }
   });
   for (let i = 0; i < players.length; i++) {
     const player = players[i];
-    player.y += player.gravity;
 
     if (player.x < 0) {
       //alert(`${player.name}`+ " lost!");

@@ -27,7 +27,18 @@ export function drawPlatforms(ctx, obstacles) {
         
         if (obj instanceof Platform) {
             ctx.fillStyle = obj.color;
-            ctx.fillRect(obj.x, obj.y, 100, 15);
+            ctx.fillRect(obj.x, obj.y, obj.width, 15);
+        }
+    }
+}
+
+export function drawHoles() {
+    for (let i = 0; i < obstacles.length; i++) {
+        const obj = obstacles[i];
+        
+        if (obj instanceof Hole) {
+            ctx.fillStyle = obj.color;
+            ctx.fillRect(obj.x, obj.y, obj.width, 15);
         }
     }
 }

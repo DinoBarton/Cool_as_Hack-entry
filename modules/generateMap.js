@@ -48,6 +48,7 @@ export class Platform extends Obstacle {
     constructor(x, y, speed, color = "white") {
         super(x, y, speed);
         this.color = color;
+        this.width = Math.round(Math.random() * (500 - 100) + 100);
     }
 }
 
@@ -67,7 +68,13 @@ export function generateNewObstacles(obstacles, speed, canvas, platformTick, hol
     }
 
     if (holeTick.tick >= holeTick.nextCount) {
-        holeTick.newNextCount(new Hole(0, 0, speed)); // TODO: proper impl
+        holeTick.newNextCount(
+            new Hole(
+                0, 
+                Math.round() == 0 ? canvas.height * 0.1 : canvas.height * 0.1, 
+                speed
+            )
+        ); // TODO: proper impl
         holeTick.tick = 0;
     }
 
@@ -87,8 +94,8 @@ export function cleanupObjects(obstacles) {
     for (let i = 0; i < obstacles.length; i++) {
         const obj = obstacles[i];
 
-        if (obj instanceof Platform) {
-            if (obj.x < 0) {
+        if (obj instanceof Platform || obj instanceof Hole) {
+            if (obj.x < -500) {
                 obstacles.splice(i, 1);
             }
         } else if (obj instanceof Hole) {
@@ -103,9 +110,6 @@ function generateRandomY(height) {
     const heightMin = height * 0.1;
     const heightMax = height * 0.9;
 
-    console.log(height, heightMin, heightMax)
-
-    console.log(Math.round(Math.random() * (heightMax - heightMin) + heightMin));
     return Math.round(Math.random() * (heightMax - heightMin) + heightMin);
 }
 
