@@ -7,5 +7,7 @@ export class Hero {
         this.y = y;
         this.gravity = gravity;
         this.length = length;
+        this.width = this.length;
+        this.height = this.length;
     }
 }

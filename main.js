@@ -4,7 +4,7 @@ import {
   updatePlayerPosition,
   changeGravity,
 } from "./modules/players.js";
-import { drawMap, drawPlatforms } from "./modules/draw.js";
+import { drawHoles, drawMap, drawPlatforms } from "./modules/draw.js";
 import {
   generateNewObstacles,
   Tick,
@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let players = [];
   let obstacles = [];
   let platformTick = new Tick(60, 0.2);
-  let holeTick = new Tick(10_000, 0.01);
+  let holeTick = new Tick(60, 0.01);
   let speed = 500;
 
   for (let i = 0; i < playersNumber; i++) {
@@ -46,6 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function mainLoop() {
     drawMap(ctx);
     drawPlatforms(ctx, obstacles);
+    drawHoles(ctx, obstacles);
 
     if (!running) {
       drawPlayers(players);
