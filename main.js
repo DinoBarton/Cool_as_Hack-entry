@@ -25,10 +25,10 @@ document.addEventListener("DOMContentLoaded", () => {
         names[i],
         colours[i],
         keys[i],
-        50,
+        170,
         canvas.height / (playersNumber - i) - 300,
-        0.5,
-        50
+        5,
+        35
       )
     );
   }
@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!running) {
       drawPlayers(players);
     } else {
-      updatePlayerPosition(players);
+      updatePlayerPosition(players,running);
       drawPlayers(ctx, players);
       changeGravity(players);
     }

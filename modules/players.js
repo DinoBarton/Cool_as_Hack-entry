@@ -6,26 +6,25 @@ export function drawPlayers(ctx, players) {
   }
 }
 
-export function updatePlayerPosition(players) {
+export function updatePlayerPosition(players, running) {
   players.forEach((player) => {
     player.y += player.gravity;
   });
   for (let i = 0; i < players.length; i++) {
     const player = players[i];
-    player.x += player.velocityX;
     player.y += player.gravity;
 
     if (player.x < 0) {
-      player.x = 0;
+      alert(`${player.name}`+ " lost!");
     }
     if (player.x + player.length > canvas.width) {
-      player.x = canvas.width - player.length;
+      alert(`${player.name}`+ " lost!");
     }
     if (player.y < 0) {
-      player.y = 0;
+      alert(`${player.name}`+ " lost!");
     }
     if (player.y + player.length > canvas.height) {
-      player.y = canvas.height - player.length;
+      alert(`${player.name}`+ " lost!");
     }
   }
 }
