@@ -1,4 +1,4 @@
-import { collisions } from './collisions.js'
+import { collisions } from "./collisions.js";
 
 export function drawPlayers(ctx, players) {
   for (let i = 0; i < players.length; i++) {
@@ -8,7 +8,7 @@ export function drawPlayers(ctx, players) {
   }
 }
 
-export function updatePlayerPosition(players, canvas) {
+export function updatePlayerPosition(players, canvas, elapsedTime) {
   players.forEach((player) => {
     if (!collisions(player, canvas)) {
       player.y += player.gravity;
@@ -18,16 +18,16 @@ export function updatePlayerPosition(players, canvas) {
     const player = players[i];
 
     if (player.x < 0) {
-      //alert(`${player.name}`+ " lost!");
+      alert(`${player.name}` + ` lost\nSurvived Time: ${elapsedTime} seconds`);
     }
     if (player.x + player.length > canvas.width) {
-      //alert(`${player.name}`+ " lost!");
+      alert(`${player.name}` + ` lost\nSurvived Time: ${elapsedTime} seconds`);
     }
     if (player.y < 0) {
-      //alert(`${player.name}`+ " lost!");
+      alert(`${player.name}` + ` lost\nSurvived Time: ${elapsedTime} seconds`);
     }
     if (player.y + player.length > canvas.height) {
-      //alert(`${player.name}`+ " lost!");
+      alert(`${player.name}` + ` lost\nSurvived Time: ${elapsedTime} seconds`);
     }
   }
 }
