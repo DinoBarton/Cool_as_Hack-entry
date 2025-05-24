@@ -27,28 +27,24 @@ document.addEventListener("DOMContentLoaded", () => {
     form.appendChild(submitButton);
 });
 
-// Example: Save playerCount to localStorage (this can be done elsewhere in your app)
 function savePlayerCount(count) {
     localStorage.setItem('playerCount', count);
 }
 
-// Uncomment the line below to test saving playerCount
-// savePlayerCount(3); // Example: Save 3 players
-
 document.getElementById('submitPlayerCount').onclick = function() {
     const playerCount = document.getElementById('playerCount').value;
-    localStorage.setItem('playerCount', playerCount); // Store in localStorage
+    localStorage.setItem('playerCount', playerCount); 
     alert('Player count submitted: ' + playerCount);
     window.location.href = 'names.html';
 };
 
 document.getElementById("nameForm").onsubmit = function (event) {
-    event.preventDefault(); // Prevent default form submission
+    event.preventDefault();
     const playerNames = [];
     for (let i = 1; i <= playerCount; i++) {
         const name = document.getElementById(`player${i}Name`).value;
         playerNames.push(name);
     }
     localStorage.setItem("playerNames", JSON.stringify(playerNames));
-    window.location.href = "info.html"; // Redirect to the game
+    window.location.href = "info.html";
 };

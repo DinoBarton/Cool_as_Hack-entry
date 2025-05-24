@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
 
-  let running = true;
+  let running = false;
   let playersNumber = 2;
   let names = ["Alice", "Bob"];
   let colours = ["#ff0000", "#00ff00"];
@@ -29,6 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let platformTick = new Tick(60, 0.2);
   let holeTick = new Tick(60, 0.01);
   let speed = 500;
+  let startTime = null;
 
   for (let i = 0; i < playersNumber; i++) {
     players.push(
@@ -46,9 +47,11 @@ document.addEventListener("DOMContentLoaded", () => {
   function mainLoop() {
     drawMap(ctx);
     drawPlatforms(ctx, obstacles);
+    drawHoles(ctx, obstacles);
 
     if (!running) {
       drawPlayers(players);
+      drawTime();
     } else {
       obstacles = generateNewObstacles(
         obstacles,
@@ -66,6 +69,34 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     requestAnimationFrame(mainLoop);
+  }
+  function startGame() {
+    if (!running) { 
+      running = true;
+      startTime = new Date().getTime();
+    }
+  }
+  startGame();
+  window.onkeydown = (e) => {
+    keys[e.key] = true;
+    if (e.key === " " && !running && !spacePressed) {
+      spacePressed = true;
+      startGame();
+    }
+  };
+  function drawTime() {
+    ctx.fillStyle = "white";
+    ctx.font = "bold 20px serif";
+    ctx.textAlign = "right";
+    ctx.textBaseline = "top";
+
+    let currentTime = new Date().getTime();
+    let elapsedTime = startTime
+      ? ((currentTime - startTime) / 1000).toFixed(1)
+      : "0.0";
+    let date = new Date().toLocaleTimeString();
+    ctx.fillText(`Current Time: ${date}`, canvas.width - 20, 20);
+    ctx.fillText(`Time Alive: ${elapsedTime}s`, canvas.width - 20, 50);
   }
   mainLoop();
 });
