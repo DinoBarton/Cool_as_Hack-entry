@@ -59,7 +59,7 @@ export class Platform extends Obstacle {
 
 export class Hole extends Platform {
     constructor(x, y, speed) {
-        super(x, y, speed, "red");
+        super(x, y, speed, "#202124");
     }
 }
 
@@ -73,7 +73,8 @@ export function generateNewObstacles(obstacles, speed, canvas, platformTick, hol
     }
 
     if (holeTick.tick >= holeTick.nextCount) {
-        let newHole = new Hole(canvas.width, generateHoleY(canvas.height), speed);
+        let newHole = new Hole(canvas.width, 0, speed);
+        newHole.y = generateHoleY(canvas.height, newHole.height)
         obstacles.push(newHole);
         holeTick.newNextCount();
         holeTick.tick = 0;
@@ -116,9 +117,10 @@ function generateRandomY(height) {
 }
 
 function generateHoleY(canvasHeight, height) {
-    const heightMin = canvasHeight * 0.1 + height/2;
+    const heightMin = canvasHeight * 0.1 - height/2;
     const heightMax = canvasHeight * 0.9 - height/2;
 
+    console.log(heightMin, heightMax);
     return Math.round(Math.random()) === 0 ? heightMin : heightMax;
 }
 
