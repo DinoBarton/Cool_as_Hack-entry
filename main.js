@@ -1,6 +1,8 @@
 import { input } from "./modules/input.js";
 import { Hero } from "./modules/hero.js";
 import { drawPlayers, updatePlayerPosition } from "./modules/players.js";
+import { drawMap } from './modules/draw.js'
+
 document.addEventListener("DOMContentLoaded", () => {
   const canvas = document.getElementById("canvas");
   const ctx = canvas.getContext("2d");
@@ -28,9 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
     );
   }
   function mainLoop() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "#202124";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    drawMap();
 
     if (!running) {
       drawPlayers(players);
